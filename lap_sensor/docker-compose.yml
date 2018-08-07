@@ -1,0 +1,30 @@
+db:
+    image: postgres
+    container_name: django-db
+    ports:
+        - 5442:5432
+    environment:
+        POSTGRES_USER: pgpg
+        POSTGRES_PASSWORD: pgpg
+        POSTGRES_DB: 'pgdb'
+    volumes:
+        - .data/sql:/var/lib/postgresql
+
+web:
+    container_name: django-web
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+        - 8000:8000
+    links:
+      - db
+frontend:
+    build: ./frontend
+    command: ["npm", "start"]
+    volumes:
+      - ./frontend:/code/frontend
+      - node-modules:/code/frontend/node_modules
+    ports:
+      - "3000:3000"
