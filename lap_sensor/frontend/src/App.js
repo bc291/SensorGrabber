@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 import Testowo from "./Testowo"
 import NotFound from "./NotFound"
+import { Redirect } from 'react-router';
 injectTapEventPlugin();
 
 
@@ -22,6 +23,9 @@ class App extends Component {
       username: ''
     };
   }
+
+
+
 
   onChange = updatedValue => {
     this.setState({
@@ -76,13 +80,25 @@ class App extends Component {
     }));
   };
 
+  PrivateRoute = ({component: ChildComponent, ...rest}) => {
+    return <Route {...rest} render={props => {
+       if (!this.state.logged_in) {
+        return <Redirect to="/login" />;
+      } else {
+        return <ChildComponent {...props} />
+      }
+    }} />
+  }
+
   render() {
+    let {PrivateRoute} = this;
     console.log(this.state.logged_in)
     return (
 
 <MuiThemeProvider>
         <div className="App">
-          <Form handle_login={this.handle_login} />
+        {this.state.logged_in ? console.log("Zalogowany") : (<Form handle_login={this.handle_login} />)}
+          
           <p>
             {JSON.stringify(this.state.fields, null, 2)}
           </p>
@@ -95,7 +111,11 @@ class App extends Component {
 
  <BrowserRouter>
     <Switch>
-      <Route exact path="/index" component={Testowo} />
+    <Route exact path="/index" component={Testowo} />
+      
+    <PrivateRoute exact path="/contact" component={Testowo} />
+
+
       <Route component={NotFound} />
     </Switch>
     </BrowserRouter>
@@ -114,6 +134,13 @@ class App extends Component {
 
 }
 
+
+/*
+      <Route exact path="/index" render={
+        ()=>(this.state.logged_in ? (<Testowo/>) : 
+        (<Redirect to="/login" />))
+      } />
+*/
 
 
 
