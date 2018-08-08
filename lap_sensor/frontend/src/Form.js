@@ -4,6 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import PropTypes from 'prop-types';
 
 export default class Form extends React.Component {
+
   state = {
     username: "",
     password: ""
@@ -18,27 +19,6 @@ export default class Form extends React.Component {
       return newState;
     });
   };
-/*
-  fetch("http://localhost:8000/auth-jwt/", {
-  method: "post",
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  },
-
-  //make sure to serialize your JSON body
-  body: JSON.stringify({
-    username: this.state.username,
-    password: this.state.password
-  })
-})
-.then(response => {
-  if (response.ok) {
-    response.json().then(json => {
-      console.log(json);
-    });
-  }
-});};*/
 
   render() {
     return (

@@ -10,8 +10,11 @@ import {Route, Switch, BrowserRouter} from 'react-router-dom';
 import Testowo from "./Testowo"
 import NotFound from "./NotFound"
 import { Redirect } from 'react-router';
-injectTapEventPlugin();
+import SideBar from './Header';
 
+
+
+injectTapEventPlugin();
 
 
 class App extends Component {
@@ -24,7 +27,9 @@ class App extends Component {
     };
   }
 
-
+  showSettings (event) {
+    event.preventDefault();
+  }
 
 
   onChange = updatedValue => {
@@ -94,23 +99,19 @@ class App extends Component {
     let {PrivateRoute} = this;
     console.log(this.state.logged_in)
     return (
-
 <MuiThemeProvider>
         <div className="App">
-        {this.state.logged_in ? console.log("Zalogowany") : (<Form handle_login={this.handle_login} />)}
+        
+<div id="outer-container" style={{height: '100%'}}>
+<SideBar />
+        <div id="page-wrap">
+          <p>Content</p>
+          {!this.state.logged_in ? (<Form handle_login={this.handle_login} />) :
           
-          <p>
-            {JSON.stringify(this.state.fields, null, 2)}
-          </p>
-          <h3>
-          {this.state.logged_in
-            ? `Hello, ${this.state.username}`
-            : 'Please Log In'}
-        </h3>
-
-
- <BrowserRouter>
-    <Switch>
+          console.log("TEST")
+          }
+          <BrowserRouter>
+       <Switch>
     <Route exact path="/index" component={Testowo} />
       
     <PrivateRoute exact path="/contact" component={Testowo} />
@@ -118,13 +119,14 @@ class App extends Component {
 
       <Route component={NotFound} />
     </Switch>
-    </BrowserRouter>
+        </BrowserRouter>
+        </div>
+      </div>
 
         </div>
 
-            
+           
       </MuiThemeProvider>
-  
 
 
     );
@@ -140,6 +142,9 @@ class App extends Component {
         ()=>(this.state.logged_in ? (<Testowo/>) : 
         (<Redirect to="/login" />))
       } />
+
+
+ 
 */
 
 
