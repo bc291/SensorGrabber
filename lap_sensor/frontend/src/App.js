@@ -13,6 +13,20 @@ import { Redirect } from 'react-router';
 import SideBar from './Header';
 
 
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+});
+
 
 injectTapEventPlugin();
 
@@ -85,6 +99,13 @@ class App extends Component {
     }));
   };
 
+
+  handle_logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    this.setState({logged_in: false})
+  };
+
   PrivateRoute = ({component: ChildComponent, ...rest}) => {
     return <Route {...rest} render={props => {
        if (!this.state.logged_in) {
@@ -103,12 +124,12 @@ class App extends Component {
         <div className="App">
         
 <div id="outer-container" style={{height: '100%'}}>
-<SideBar />
+
         <div id="page-wrap">
           <p>Content</p>
-          {!this.state.logged_in ? (<Form handle_login={this.handle_login} />) :
+          {!this.state.logged_in ? (<Form handle_login={this.handle_login}/>) :
           
-          console.log("TEST")
+          <SideBar handle_logout={this.handle_logout}/>
           }
           <BrowserRouter>
        <Switch>
@@ -120,6 +141,7 @@ class App extends Component {
       <Route component={NotFound} />
     </Switch>
         </BrowserRouter>
+
         </div>
       </div>
 

@@ -2,10 +2,12 @@ import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import {slide as Menu} from 'react-burger-menu';
 import { List, ListItem, ListItemContent } from 'react-mdl';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
 
 
-const SideBar = () => {
+const SideBar = (props) => {
     
     var styles = {
         bmBurgerButton: {
@@ -43,7 +45,7 @@ const SideBar = () => {
     };
     
     return (
-
+            
 
         <Menu styles={styles}
         noOverlay id='push'
@@ -57,7 +59,9 @@ const SideBar = () => {
                             <ListItemContent icon="person">Community</ListItemContent>
                         </ListItem>
                         <ListItem>
-                            <ListItemContent icon="person">About</ListItemContent>
+                        <Button variant="contained" color="primary" onClick={e=>props.handle_logout(e)}>
+      Hello World
+    </Button>
                         </ListItem>
                     </List>
       </Menu>
@@ -66,3 +70,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+
