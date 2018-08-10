@@ -16,7 +16,10 @@ import SideBar from './Header';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Todo from './NewComponent'
+import TodoLister from './TodoLister'
 
+import {observer} from 'mobx-react';
 
 const styles = theme => ({
   button: {
@@ -29,7 +32,6 @@ const styles = theme => ({
 
 
 injectTapEventPlugin();
-
 
 class App extends Component {
   constructor(props) {
@@ -131,6 +133,15 @@ class App extends Component {
           
           <SideBar handle_logout={this.handle_logout}/>
           }
+          <Button variant="contained" color="primary" onClick={Todo.addTodo.bind(Todo, "Test")}>
+          Add new todo
+          </Button>
+          <Button variant="contained" color="primary" onClick={()=>Todo.viewAllTodos}>
+          List all todos
+          </Button>
+          <Button variant="contained" color="primary" onClick={Todo.getAllValues.bind(Todo)}>
+          Change Data
+          </Button>
           <BrowserRouter>
        <Switch>
     <Route exact path="/index" component={Testowo} />
@@ -172,4 +183,4 @@ class App extends Component {
 
 
 
-export default App;
+export default observer(App);
