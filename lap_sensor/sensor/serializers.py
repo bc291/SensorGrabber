@@ -12,7 +12,7 @@ class SensorSerializer(serializers.ModelSerializer):
 class ReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reading
-        fields = ('name', 'location', 'value', 'created_at', 'unit', 'sensor')
+        fields = ('id', 'name', 'location', 'value', 'created_at', 'unit', 'sensor')
 
 
 class UserSerializer(serializers.ModelSerializer):

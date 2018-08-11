@@ -16,19 +16,31 @@ import SideBar from './Header';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Todo from './NewComponent'
-import TodoLister from './TodoLister'
 
 import {observer} from 'mobx-react';
 
+
+
+import Readings from './stores/Readings'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
   },
-  input: {
-    display: 'none',
+  table: {
+    minWidth: 700,
   },
 });
+
+
 
 
 injectTapEventPlugin();
@@ -120,6 +132,7 @@ class App extends Component {
 
   render() {
     let {PrivateRoute} = this;
+    var {all} = Readings
     console.log(this.state.logged_in)
     return (
 <MuiThemeProvider>
@@ -128,19 +141,13 @@ class App extends Component {
 <div id="outer-container" style={{height: '100%'}}>
 
         <div id="page-wrap">
-          <p>Content</p>
+          <p>Lap sensor</p>
           {!this.state.logged_in ? (<Form handle_login={this.handle_login}/>) :
           
           <SideBar handle_logout={this.handle_logout}/>
           }
-          <Button variant="contained" color="primary" onClick={Todo.addTodo.bind(Todo, "Test")}>
-          Add new todo
-          </Button>
-          <Button variant="contained" color="primary" onClick={()=>Todo.viewAllTodos}>
-          List all todos
-          </Button>
-          <Button variant="contained" color="primary" onClick={Todo.getAllValues.bind(Todo)}>
-          Change Data
+          <Button variant="contained" color="primary" onClick={Readings.fetchAll}>
+          Get all readings
           </Button>
           <BrowserRouter>
        <Switch>
@@ -153,12 +160,44 @@ class App extends Component {
     </Switch>
         </BrowserRouter>
 
+
+
+            <Paper >
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Location</TableCell>
+            <TableCell numeric>Value</TableCell>
+            <TableCell>Created at</TableCell>
+            <TableCell numeric>Sensor</TableCell>
+            <TableCell numeric>Id</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {all.map(reading => {
+            return (
+              <TableRow key={reading.id}>
+                <TableCell component="th" scope="row">
+                  {reading.name}
+                </TableCell>
+                <TableCell>{reading.location}</TableCell>
+                <TableCell numeric>{reading.value}</TableCell>
+                <TableCell>{reading.created_at}</TableCell>
+                <TableCell numeric>{reading.gsensor}</TableCell>
+                <TableCell numeric>{reading.id}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </Paper>
+
+
         </div>
       </div>
 
         </div>
-
-           
       </MuiThemeProvider>
 
 
