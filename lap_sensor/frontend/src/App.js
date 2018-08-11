@@ -28,6 +28,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+
 
 const styles = theme => ({
   root: {
@@ -81,6 +84,7 @@ class App extends Component {
           this.setState({ username: json.username });
         });
     }
+    Readings.fetchAll();
   }
 
 
@@ -160,7 +164,9 @@ class App extends Component {
     </Switch>
         </BrowserRouter>
 
-
+{Readings.isLoading ? (<LinearProgress color="secondary" />) :
+(console.log("Not loading"))
+}
 
             <Paper >
       <Table>

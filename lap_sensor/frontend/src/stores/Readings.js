@@ -11,11 +11,12 @@ class Readings{
     }
 
 fetchAll = async () =>{
-    this.isLoading = false;
+    this.isLoading = true;
     const url = 'http://localhost:8000/sensor/reading/';
     await fetch(url, {headers:{
         Authorization: `JWT ${localStorage.getItem('token')}`
     }}).then((resp)=>{
+        //this.isLoading = true;
         if(resp.status === 200)
         {
             return resp.json()
@@ -25,6 +26,7 @@ fetchAll = async () =>{
         }
     }).then((returned_json)=>{
         this.all = returned_json
+        this.isLoading = false;
     }).catch((error)=>{
         this.all = []
         console.log("NOT LOGGED IN")
