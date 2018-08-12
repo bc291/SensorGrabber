@@ -20,30 +20,14 @@ import { withStyles } from '@material-ui/core/styles';
 import {observer} from 'mobx-react';
 
 
-
 import Readings from './stores/Readings'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import UpperBar from './components/UpperBar'
+import ReadingsTable from './components/ReadingsTable'
+import TotalTest from './components/TotalTest'
+import MenuLister from './components/MenuLister'
 
 import Auth from './stores/Auth'
-
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-});
 
 
 injectTapEventPlugin();
@@ -52,74 +36,20 @@ injectTapEventPlugin();
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      displayed_form: '',
-      logged_in: localStorage.getItem('token') ? true : false,
-      username: ''
-    };
 
     Auth.logged_in = localStorage.getItem('token') ? true : false;
+    console.log(Readings.all_users)
   }
 
   showSettings (event) {
     event.preventDefault();
   }
 
-
-  onChange = updatedValue => {
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        ...updatedValue
-      }
-    });
-  };
-
   
   componentDidMount() {
-    if (this.state.logged_in) {
-      fetch('http://localhost:8000/sensor/current_user/', {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
-      })
-        .then(res => res.json())
-        .then(json => {
-          this.setState({ username: json.username });
-        });
-    }
     Readings.fetchAll();
     Auth.check_if_logged();
   }
-
-
-  handle_login = (e, data) => {
-    e.preventDefault();
-    fetch('http://localhost:8000/auth-jwt/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-      .then(res => {
-        if(res.status === 400)
-        {
-          throw new Error('Something went wrong');
-        }
-        return res.json()     
-      })
-      .then(json => {
-        localStorage.setItem('token', json.token);
-        this.setState({
-          logged_in: true,
-          displayed_form: '',
-          username: json.user.username
-        })
-      }).catch(error => this.setState({
-        logged_in: false
-    }));
-  };
 
 
   handle_logout = (e) => {
@@ -140,14 +70,14 @@ class App extends Component {
 
   render() {
     let {PrivateRoute} = this;
-    var {all_users} = Readings
-    console.log(all_users)
+    //console.log(all_users)
     return (
 <MuiThemeProvider>
+  
         <div className="App">
         
 <div id="outer-container" style={{height: '100%'}}>
-
+<UpperBar/>
         <div id="page-wrap">
           <p>Lap sensor</p>
           {Auth.logged_in ? (<p>Hi {Auth.username}</p>) :
@@ -186,37 +116,9 @@ class App extends Component {
 {Readings.is_loading ? (<LinearProgress color="secondary" />) :
 (console.log("Not loading"))
 }
-
-            <Paper >
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Location</TableCell>
-            <TableCell numeric>Value</TableCell>
-            <TableCell>Created at</TableCell>
-            <TableCell numeric>Sensor</TableCell>
-            <TableCell numeric>Id</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {all_users.map(reading => {
-            return (
-              <TableRow key={reading.id}>
-                <TableCell component="th" scope="row">
-                  {reading.name}
-                </TableCell>
-                <TableCell>{reading.location}</TableCell>
-                <TableCell numeric>{reading.value}</TableCell>
-                <TableCell>{reading.created_at}</TableCell>
-                <TableCell numeric>{reading.gsensor}</TableCell>
-                <TableCell numeric>{reading.id}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </Paper>
+<MenuLister/>
+<TotalTest/>
+<ReadingsTable/>
 
 
         </div>
