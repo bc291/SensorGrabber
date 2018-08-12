@@ -3,6 +3,10 @@ import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import PropTypes from 'prop-types';
 
+
+import Auth from './stores/Auth'
+
+
 export default class Form extends React.Component {
 
   state = {
@@ -43,13 +47,17 @@ export default class Form extends React.Component {
           floatingLabelFixed
         />
         <br />
-        <RaisedButton label="Submit" onClick={e => this.props.handle_login(e, this.state)} primary />
+        <RaisedButton label="Submit" onClick={Auth.login.bind(Auth, this.state)} primary />
       </form>
     );
   }
 }
 
 
+/*
+<RaisedButton label="Submit" onClick={e => this.props.handle_login(e, this.state)} primary />
 Form.propTypes = {
   handle_login: PropTypes.func.isRequired
 };
+
+*/

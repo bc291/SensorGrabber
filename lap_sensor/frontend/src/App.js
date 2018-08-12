@@ -31,6 +31,8 @@ import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
+import Auth from './stores/Auth'
+
 
 const styles = theme => ({
   root: {
@@ -44,9 +46,8 @@ const styles = theme => ({
 });
 
 
-
-
 injectTapEventPlugin();
+
 
 class App extends Component {
   constructor(props) {
@@ -56,6 +57,8 @@ class App extends Component {
       logged_in: localStorage.getItem('token') ? true : false,
       username: ''
     };
+
+    Auth.logged_in = localStorage.getItem('token') ? true : false;
   }
 
   showSettings (event) {
@@ -72,6 +75,7 @@ class App extends Component {
     });
   };
 
+  
   componentDidMount() {
     if (this.state.logged_in) {
       fetch('http://localhost:8000/sensor/current_user/', {
@@ -85,6 +89,7 @@ class App extends Component {
         });
     }
     Readings.fetchAll();
+    Auth.check_if_logged();
   }
 
 
@@ -100,7 +105,6 @@ class App extends Component {
       .then(res => {
         if(res.status === 400)
         {
-          console.log("DUPA");
           throw new Error('Something went wrong');
         }
         return res.json()     
@@ -137,7 +141,6 @@ class App extends Component {
   render() {
     let {PrivateRoute} = this;
     var {all} = Readings
-    console.log(this.state.logged_in)
     return (
 <MuiThemeProvider>
         <div className="App">
@@ -146,12 +149,18 @@ class App extends Component {
 
         <div id="page-wrap">
           <p>Lap sensor</p>
-          {!this.state.logged_in ? (<Form handle_login={this.handle_login}/>) :
-          
-          <SideBar handle_logout={this.handle_logout}/>
-          }
+          <Button variant="contained" color="primary" onClick={Auth.login.bind(Auth, {username: "admin",
+                                                                                      password: "koza1994"})}>
+          Login v2
+          </Button>
+
           <Button variant="contained" color="primary" onClick={Readings.fetchAll}>
           Get all readings
+          </Button>
+
+
+          <Button variant="contained" color="primary" onClick={Auth.check_if_logged}>
+          Test
           </Button>
           <BrowserRouter>
        <Switch>
@@ -163,6 +172,13 @@ class App extends Component {
       <Route component={NotFound} />
     </Switch>
         </BrowserRouter>
+        {console.log(Auth.logged_in)}
+
+            {!Auth.logged_in ? (<Form/>) :
+          
+          <SideBar handle_logout={this.handle_logout}/>
+          }
+          
 
 {Readings.isLoading ? (<LinearProgress color="secondary" />) :
 (console.log("Not loading"))
@@ -229,3 +245,14 @@ class App extends Component {
 
 
 export default observer(App);
+
+
+
+/*
+          {!this.state.logged_in ? (<Form handle_login={this.handle_login}/>) :
+          
+          <SideBar handle_logout={this.handle_logout}/>
+          }
+
+
+          */
