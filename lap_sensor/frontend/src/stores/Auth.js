@@ -11,10 +11,10 @@ constructor() {
     })
 }
 
-
     logged_in = false
     is_loading = false
     is_failure = false
+    username
 
     async login(params){
         try{
@@ -45,23 +45,24 @@ async check_if_logged()
         const status = await response.status
         if (status === 200)
         {
+            
             runInAction(()=>{
                 this.logged_in = true;
                 this.is_failure = false;
                 this.is_loading = false;
-            })
+                this.username = response.body.username
+            })    
         }
-
     }
     catch(e){
         runInAction(()=>{
         this.logged_in = false;
         this.is_failure = true;
-        this.is_loading = false; 
+        this.is_loading = false;
+        this.username = null
     })}
 }
 }
-
 
 
 decorate(Auth,
@@ -69,6 +70,7 @@ decorate(Auth,
     logged_in: observable,
     is_loading: observable,
     is_failure: observable,
+    username: observable,
     login: action
 });
 

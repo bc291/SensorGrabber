@@ -46,8 +46,7 @@ class Api
     async check_log_state(token)
     {
         const response = await this.apiCall(api_endpoints.check_login, 'GET', token)
-        console.log(response.body)
-        return response.body
+        return response
     }
 }
 

@@ -88,8 +88,8 @@ class App extends Component {
           this.setState({ username: json.username });
         });
     }
-    Readings.fetchAll();
     Auth.check_if_logged();
+    Readings.fetchAll();
   }
 
 
@@ -149,6 +149,8 @@ class App extends Component {
 
         <div id="page-wrap">
           <p>Lap sensor</p>
+          {Auth.logged_in ? (<p>Hi {Auth.username}</p>) :
+        (<p>Not logged in </p>)}
           <Button variant="contained" color="primary" onClick={Auth.login.bind(Auth, {username: "admin",
                                                                                       password: "koza1994"})}>
           Login v2
