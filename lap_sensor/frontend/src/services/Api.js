@@ -48,6 +48,12 @@ class Api
         const response = await this.apiCall(api_endpoints.check_login, 'GET', token)
         return response
     }
+
+    async get_all_reading(token)
+    {
+        const response = await this.apiCall(api_endpoints.all_readings, 'GET', token)
+        return response
+    }
 }
 
 

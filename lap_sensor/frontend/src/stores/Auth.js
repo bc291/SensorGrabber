@@ -45,13 +45,15 @@ async check_if_logged()
         const status = await response.status
         if (status === 200)
         {
-            
             runInAction(()=>{
                 this.logged_in = true;
                 this.is_failure = false;
                 this.is_loading = false;
                 this.username = response.body.username
             })    
+        }
+        else{
+            throw new Error("Not logged in")
         }
     }
     catch(e){

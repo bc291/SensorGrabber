@@ -88,8 +88,8 @@ class App extends Component {
           this.setState({ username: json.username });
         });
     }
-    Auth.check_if_logged();
     Readings.fetchAll();
+    Auth.check_if_logged();
   }
 
 
@@ -140,7 +140,8 @@ class App extends Component {
 
   render() {
     let {PrivateRoute} = this;
-    var {all} = Readings
+    var {all_users} = Readings
+    console.log(all_users)
     return (
 <MuiThemeProvider>
         <div className="App">
@@ -182,7 +183,7 @@ class App extends Component {
           }
           
 
-{Readings.isLoading ? (<LinearProgress color="secondary" />) :
+{Readings.is_loading ? (<LinearProgress color="secondary" />) :
 (console.log("Not loading"))
 }
 
@@ -199,7 +200,7 @@ class App extends Component {
           </TableRow>
         </TableHead>
         <TableBody>
-          {all.map(reading => {
+          {all_users.map(reading => {
             return (
               <TableRow key={reading.id}>
                 <TableCell component="th" scope="row">

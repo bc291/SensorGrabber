@@ -1,36 +1,36 @@
 import React from 'react'
 import { observable, computed, action, decorate, autorun, get, toJS, set, runInAction } from "mobx";
-
+import Api from "../services/Api"
 
 class Readings{
-    all = [];
-    isLoading = false;
+    all_users = [];
+    is_loading = false;
+    is_failure = false;
 
     constructor() {
-        autorun(() => console.log(toJS(this.all)));
+        autorun(() => console.log(toJS(this.all_users)));
     }
 
 fetchAll = async () =>{
-    this.isLoading = true;
-    const url = 'http://localhost:8000/sensor/reading/';
-    await fetch(url, {headers:{
-        Authorization: `JWT ${localStorage.getItem('token')}`
-    }}).then((resp)=>{
-        //this.isLoading = true;
-        if(resp.status === 200)
+    try{
+        this.is_loading = true;
+        let token = localStorage.getItem('token')
+        const response = await Api.get_all_reading(token)
+        const status = await response.status
+        if (status === 200)
         {
-            return resp.json()
+            this.is_loading = false;
+            this.all_users = response.body;
         }
-        else{
-            throw new Error("Unauthorized")
+        else {
+            throw new Error("Something bad happened")
         }
-    }).then((returned_json)=>{
-        this.all = returned_json
-        this.isLoading = false;
-    }).catch((error)=>{
-        this.all = []
-        console.log("NOT LOGGED IN")
-    });
+    }
+    catch(e)
+    {
+        this.is_failure = true;
+        this.is_loading = false;
+    }
 
 };
 
@@ -38,8 +38,9 @@ fetchAll = async () =>{
 }
 decorate(Readings,
 {
-all: observable,
-isLoading: observable,
+all_users: observable,
+is_loading: observable,
+is_failure: observable,
 fetchAll: action
 });
 
