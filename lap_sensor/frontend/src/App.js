@@ -10,7 +10,6 @@ import {Route, Switch, BrowserRouter} from 'react-router-dom';
 import Testowo from "./Testowo"
 import NotFound from "./NotFound"
 import { Redirect } from 'react-router';
-import SideBar from './Header';
 
 
 import Button from '@material-ui/core/Button';
@@ -26,7 +25,7 @@ import UpperBar from './components/UpperBar'
 import ReadingsTable from './components/ReadingsTable'
 import TotalTest from './components/TotalTest'
 import MenuLister from './components/MenuLister'
-
+import RightDrawer from './components/RightDrawer'
 import Auth from './stores/Auth'
 
 
@@ -39,10 +38,6 @@ class App extends Component {
 
     Auth.logged_in = localStorage.getItem('token') ? true : false;
     console.log(Readings.all_users)
-  }
-
-  showSettings (event) {
-    event.preventDefault();
   }
 
   
@@ -70,14 +65,15 @@ class App extends Component {
 
   render() {
     let {PrivateRoute} = this;
+
     //console.log(all_users)
     return (
+      <RightDrawer>
 <MuiThemeProvider>
   
         <div className="App">
-        
 <div id="outer-container" style={{height: '100%'}}>
-<UpperBar/>
+
         <div id="page-wrap">
           <p>Lap sensor</p>
           {Auth.logged_in ? (<p>Hi {Auth.username}</p>) :
@@ -105,28 +101,20 @@ class App extends Component {
       <Route component={NotFound} />
     </Switch>
         </BrowserRouter>
-        {console.log(Auth.logged_in)}
-
-            {!Auth.logged_in ? (<Form/>) :
-          
-          <SideBar handle_logout={this.handle_logout}/>
-          }
           
 
 {Readings.is_loading ? (<LinearProgress color="secondary" />) :
 (console.log("Not loading"))
 }
 <MenuLister/>
-<TotalTest/>
 <ReadingsTable/>
 
 
         </div>
       </div>
-
-        </div>
+</div>
       </MuiThemeProvider>
-
+</RightDrawer>
 
     );
   }
