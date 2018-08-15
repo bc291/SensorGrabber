@@ -7,8 +7,20 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
+import { withStyles } from '@material-ui/core/styles';
+
+
 import Readings from '../stores/Readings'
 
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 
 const ReadingsTable = () =>
@@ -19,12 +31,12 @@ return(
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>Name</TableCell>
-          <TableCell>Location</TableCell>
-          <TableCell numeric>Value</TableCell>
-          <TableCell>Created at</TableCell>
-          <TableCell numeric>Sensor</TableCell>
-          <TableCell numeric>Id</TableCell>
+          <CustomTableCell>Name</CustomTableCell>
+          <CustomTableCell>Location</CustomTableCell>
+          <CustomTableCell numeric>Value</CustomTableCell>
+          <CustomTableCell>Created at</CustomTableCell>
+          <CustomTableCell numeric>Sensor</CustomTableCell>
+          <CustomTableCell numeric>Id</CustomTableCell>
         </TableRow>
       </TableHead>
       <TableBody>

@@ -24,7 +24,7 @@ router.register(r'sensors', SensorViewSet)
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    url(r'index/', TemplateView.as_view(template_name="index.html")),
+    path('', TemplateView.as_view(template_name="index.html")),
     #url(r'^', include(router.urls)),
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('sensor/', include('sensor.urls')),

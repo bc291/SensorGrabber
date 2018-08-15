@@ -27,7 +27,8 @@ import TotalTest from './components/TotalTest'
 import MenuLister from './components/MenuLister'
 import RightDrawer from './components/RightDrawer'
 import Auth from './stores/Auth'
-
+import {Link} from 'react-router-dom';
+import api_endpoints from './api_endpoints'
 
 injectTapEventPlugin();
 
@@ -66,11 +67,52 @@ class App extends Component {
   render() {
     let {PrivateRoute} = this;
 
-    //console.log(all_users)
+    if(Auth.is_loading)
+    {
+      return <p>Loading...</p>
+    }
     return (
-      <RightDrawer>
-<MuiThemeProvider>
-  
+      <main>
+      {this.props.children}
+      </main>
+    );
+  }
+
+
+
+}
+
+
+
+
+export default observer(App);
+
+
+
+/*
+          {!this.state.logged_in ? (<Form handle_login={this.handle_login}/>) :
+          
+          <SideBar handle_logout={this.handle_logout}/>
+          }
+
+<Route exact path="/dashboard" component={Testowo} />
+
+      <Route exact path="/index" render={
+        ()=>(this.state.logged_in ? (<Testowo/>) : 
+        (<Redirect to="/login" />))
+      } />
+
+
+ 
+*/
+
+
+
+  /*
+      <MuiThemeProvider>
+
+                    
+
         <div className="App">
 <div id="outer-container" style={{height: '100%'}}>
 
@@ -91,11 +133,23 @@ class App extends Component {
           <Button variant="contained" color="primary" onClick={Auth.check_if_logged}>
           Test
           </Button>
+
+{!Auth.logged_in ? (<Form handle_login={this.handle_login}/>) :
+                        console.log("Test")}
+
+
           <BrowserRouter>
        <Switch>
-    <Route exact path="/index" component={Testowo} />
+    
+    
+       <p>
+       <Link to="/dashboard">Click Here</Link> to contact us!
+     </p>
+
+
+       
       
-    <PrivateRoute exact path="/contact" component={Testowo} />
+    <PrivateRoute exact path="/dashboard" component={Testowo} />
 
 
       <Route component={NotFound} />
@@ -106,46 +160,16 @@ class App extends Component {
 {Readings.is_loading ? (<LinearProgress color="secondary" />) :
 (console.log("Not loading"))
 }
-<MenuLister/>
-<ReadingsTable/>
+
+
 
 
         </div>
       </div>
+      
 </div>
+
       </MuiThemeProvider>
-</RightDrawer>
 
-    );
-  }
-
-
-
-}
-
-
-/*
-      <Route exact path="/index" render={
-        ()=>(this.state.logged_in ? (<Testowo/>) : 
-        (<Redirect to="/login" />))
-      } />
-
-
+  */
  
-*/
-
-
-
-
-export default observer(App);
-
-
-
-/*
-          {!this.state.logged_in ? (<Form handle_login={this.handle_login}/>) :
-          
-          <SideBar handle_logout={this.handle_logout}/>
-          }
-
-
-          */
