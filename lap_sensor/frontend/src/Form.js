@@ -34,6 +34,7 @@ export default class Form extends React.Component {
           value={this.state.username}
           onChange={this.handle_change}
           floatingLabelFixed
+          fullWidth
         />
         <br />
         <br />
@@ -45,6 +46,7 @@ export default class Form extends React.Component {
           onChange={this.handle_change}
           type="password"
           floatingLabelFixed
+          fullWidth
         />
         <br />
         <RaisedButton label="Submit" onClick={Auth.login.bind(Auth, this.state)} primary />

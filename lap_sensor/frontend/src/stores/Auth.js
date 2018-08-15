@@ -19,6 +19,12 @@ constructor() {
     async login(params){
         try{
         const response = await Api.login(params);
+        const status = await response.status
+        console.log(status)
+        if (status !== 200)
+        {
+            throw new Error("Bad request")
+        }
         localStorage.setItem('token', response.token);
         runInAction(()=>{
             this.logged_in = true;
@@ -27,6 +33,7 @@ constructor() {
         })
     }
         catch(e){
+            console.log(e)
             runInAction(()=>{
                 this.logged_in = false;
                 this.is_failure = true;

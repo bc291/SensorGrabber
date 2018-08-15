@@ -5,12 +5,24 @@ import Form from '../Form'
 import { MuiThemeProvider } from 'material-ui/styles';
 import {observer} from 'mobx-react';
 import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+
 
 class Login extends Component{
 
     async componentWillReact()
     {
         console.log("I WILL RE RENDER")
+    }
+
+    componentWillMount(){
+        Auth.check_if_logged();
     }
 
 
@@ -32,16 +44,32 @@ class Login extends Component{
   direction="column"
   alignItems="center"
   justify="center"
-  style={{ minHeight: '100vh' }}
+  style={{ minHeight: '100vh',
+  background: 'grey' }}
 >
 <Grid item xs={3}>
-    <Form/>
-  </Grid>   
+
+<Card>
+        <CardMedia
+          image="https://www.w3schools.com/w3css/img_lights.jpg"
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+
+<Form/>
+
+        </CardContent>
+      </Card>
+      </Grid>   
 
 </Grid> 
 
         
         </MuiThemeProvider>
+
+         
+
+
         </div>
 
     )
