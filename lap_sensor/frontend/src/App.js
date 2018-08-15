@@ -48,11 +48,7 @@ class App extends Component {
   }
 
 
-  handle_logout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem('token');
-    this.setState({logged_in: false})
-  };
+
 
   PrivateRoute = ({component: ChildComponent, ...rest}) => {
     return <Route {...rest} render={props => {
@@ -74,7 +70,17 @@ class App extends Component {
     return (
       <main>
       {this.props.children}
+
+{Auth.logged_in ? (<p>Zalogowany</p>) : 
+(<p>Niezalogowany</p>)
+}
+
       </main>
+
+
+
+
+
     );
   }
 

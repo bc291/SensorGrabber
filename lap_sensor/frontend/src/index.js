@@ -10,13 +10,14 @@ import api_endpoints from './api_endpoints'
 import Home from './containers/Home'
 import registerServiceWorker from './registerServiceWorker';
 import history from './services/history'
+import Login from './containers/Login'
 
 
 ReactDOM.render(<App>
     <Router history={history}>
  <Switch>
                     <Route exact path="/" component={Home} />
-
+                    <Route path={api_endpoints.login_page} component={Login} />
                 </Switch>
                 </Router>
 </App>, document.getElementById('root'));

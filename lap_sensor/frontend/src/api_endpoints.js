@@ -5,7 +5,7 @@ const api_endpoints = {
     login: JWT_AUTH,
     check_login: SENSOR + 'current_user/',
     all_readings: SENSOR + 'reading/',
-    login: '/login/',
+    login_page: '/login/',
     logout: '/logout/'
 }
 
