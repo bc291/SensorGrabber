@@ -94,6 +94,7 @@ const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
 
 
 class Notifier extends React.Component {
+  
   handleClose = (event, reason) =>{
     if (reason === 'clickaway') {
       return;
@@ -101,7 +102,7 @@ class Notifier extends React.Component {
     Auth.set_login_failure_state(false);
   };
 render() {
-  const { classes } = this.props;
+  const {message, snackbarType} = this.props;
 return (
   <div>
   <Snackbar
@@ -114,8 +115,8 @@ return (
   onClose={this.handleClose}
 >
 <MySnackbarContentWrapper
-  variant="error"
-  message="Login error! Bad credentials?"
+  variant={snackbarType}
+  message={message}
 />
 </Snackbar>
 

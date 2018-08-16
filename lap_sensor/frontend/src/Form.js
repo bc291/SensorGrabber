@@ -26,10 +26,12 @@ class Form extends React.Component {
 
   render() {
     console.log(Auth.error_message)
+    let message = 'Login error! Bad credentials?'
+    let type = 'error'
     return (
       
       <form>
-        <Notifier/>
+        <Notifier message={message} snackbarType={type}/>
         <TextField
           name="username"
           hintText="Username"
