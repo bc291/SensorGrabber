@@ -15,29 +15,33 @@ constructor() {
     is_loading = false
     is_failure = false
     username
+    error_message = null
 
     async login(params){
         try{
         const response = await Api.login(params);
-        const status = await response.status
-        console.log(status)
+        const status = await response.status;
+        const body = await response.body
         if (status !== 200)
         {
-            throw new Error("Bad request")
+            throw new Error(body);
         }
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', body.token);
         runInAction(()=>{
             this.logged_in = true;
             this.is_failure = false;
             this.is_loading = false;
+            this.error_messag = null
         })
     }
         catch(e){
-            console.log(e)
+            
             runInAction(()=>{
+                console.log(e)
                 this.logged_in = false;
                 this.is_failure = true;
                 this.is_loading = false;
+                this.error_message = e; 
             })
 
         }
@@ -80,6 +84,7 @@ decorate(Auth,
     is_loading: observable,
     is_failure: observable,
     username: observable,
+    error_message: observable,
     login: action
 });
 

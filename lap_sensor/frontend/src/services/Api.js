@@ -40,7 +40,9 @@ class Api
     async login(params)
     {
         const response = await this.apiCall(api_endpoints.login, 'POST', false, params);
-        return response.body;
+        const status = await response.status;
+        const body = await response.body
+        return {status, body};
     }
 
     async check_log_state(token)

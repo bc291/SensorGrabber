@@ -13,6 +13,49 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 
+import Snackbar from '@material-ui/core/Snackbar';
+import { withStyles } from '@material-ui/core/styles';
+import ErrorIcon from '@material-ui/icons/Error';
+
+
+const styles1 = theme => ({
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    },
+  });
+
+  const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
+
+  function MySnackbarContent(props) {
+    const { classes, className, message, onClose, variant, ...other } = props;
+    const Icon = ErrorIcon;
+  
+    return (
+      <SnackbarContent
+        className={classNames(classes[variant], className)}
+        aria-describedby="client-snackbar"
+        message={
+          <span id="client-snackbar" className={classes.message}>
+            <Icon className={classNames(classes.icon, classes.iconVariant)} />
+            {message}
+          </span>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            className={classes.close}
+            onClick={onClose}
+          >
+            <CloseIcon className={classes.icon} />
+          </IconButton>,
+        ]}
+        {...other}
+      />
+    );
+  }
+
 
 class Login extends Component{
 
@@ -38,6 +81,9 @@ class Login extends Component{
     return(
         <div>
             <MuiThemeProvider>
+
+
+
             <Grid
   container
   spacing={0}
@@ -48,6 +94,7 @@ class Login extends Component{
   background: 'grey' }}
 >
 <Grid item xs={3}>
+
 
 <Card>
         <CardMedia

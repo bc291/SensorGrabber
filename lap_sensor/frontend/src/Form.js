@@ -2,12 +2,12 @@ import React from "react";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import PropTypes from 'prop-types';
-
+import {observer} from 'mobx-react';
 
 import Auth from './stores/Auth'
+import Notifier from './components/Notifier'
 
-
-export default class Form extends React.Component {
+class Form extends React.Component {
 
   state = {
     username: "",
@@ -25,8 +25,11 @@ export default class Form extends React.Component {
   };
 
   render() {
+    console.log(Auth.error_message)
     return (
+      
       <form>
+        <Notifier/>
         <TextField
           name="username"
           hintText="Username"
@@ -55,7 +58,7 @@ export default class Form extends React.Component {
   }
 }
 
-
+export default observer(Form);
 /*
 <RaisedButton label="Submit" onClick={e => this.props.handle_login(e, this.state)} primary />
 Form.propTypes = {

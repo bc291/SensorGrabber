@@ -47,9 +47,11 @@
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.2",
     "react-mdl": "^1.11.0",
+    "react-notification": "^6.8.2",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "react-s-alert": "^1.4.1",
     "react-tap-event-plugin": "^3.0.3",
     "reactstrap": "^6.3.1",
     "recharts": "^1.1.0",
@@ -113,6 +115,7 @@
   },
   "devDependencies": {
     "node-sass": "^4.9.2",
+    "react-crouton": "^1.0.0",
     "sass-loader": "^7.1.0",
     "webpack-bundle-tracker": "^0.3.0"
   }
