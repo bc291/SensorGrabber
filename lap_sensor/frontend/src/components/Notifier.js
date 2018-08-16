@@ -14,7 +14,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import Auth from '../stores/Auth'
-
+import {observer} from 'mobx-react'
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -90,37 +90,16 @@ MySnackbarContent.propTypes = {
 
 const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
 
-const styles2 = theme => ({
-  margin: {
-    margin: theme.spacing.unit,
-  },
-});
-
 
 
 
 class Notifier extends React.Component {
-
-componentWillMount(){
-  this.setState({ open: false });
-}
-
-async componentWillReact()
-{
-    if(Auth.is_failure)
-    {
-      this.setState({open: true});
-    }
-}
-
-
-  handleClose = (event, reason) => {
+  handleClose = (event, reason) =>{
     if (reason === 'clickaway') {
       return;
     }
-    this.setState({ open: false });
+    Auth.set_login_failure_state(false);
   };
-
 render() {
   const { classes } = this.props;
 return (
@@ -130,14 +109,13 @@ return (
     vertical: 'bottom',
     horizontal: 'left',
   }}
-  open={this.state.open}
-  autoHideDuration={500}
+  open={Auth.login_failed}
+  autoHideDuration={2500}
   onClose={this.handleClose}
 >
 <MySnackbarContentWrapper
   variant="error"
-  className={classes.margin}
-  message="This is an error message!"
+  message="Login error! Bad credentials?"
 />
 </Snackbar>
 
@@ -145,4 +123,4 @@ return (
     );
   }
 }
-export default withStyles(styles2)(Notifier);
+export default observer(Notifier);

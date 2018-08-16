@@ -8,6 +8,7 @@ class Auth{
 constructor() {
     autorun(()=>{
         console.log(this.logged_in)
+        console.log(this.is_failure + "FAILURE")
     })
 }
 
@@ -16,6 +17,7 @@ constructor() {
     is_failure = false
     username
     error_message = null
+    login_failed = false
 
     async login(params){
         try{
@@ -32,6 +34,7 @@ constructor() {
             this.is_failure = false;
             this.is_loading = false;
             this.error_messag = null
+            this.login_failed = false
         })
     }
         catch(e){
@@ -41,7 +44,8 @@ constructor() {
                 this.logged_in = false;
                 this.is_failure = true;
                 this.is_loading = false;
-                this.error_message = e; 
+                this.error_message = e;
+                this.login_failed = true;
             })
 
         }
@@ -70,10 +74,16 @@ async check_if_logged()
     catch(e){
         runInAction(()=>{
         this.logged_in = false;
-        this.is_failure = true;
+        this.is_failure = false;
         this.is_loading = false;
         this.username = null
     })}
+}
+
+set_login_failure_state(state){
+    runInAction(()=>{
+    this.login_failed = state
+    })
 }
 }
 
@@ -85,7 +95,9 @@ decorate(Auth,
     is_failure: observable,
     username: observable,
     error_message: observable,
-    login: action
+    login_failed: observable,
+    login: action,
+    set_login_failure_state: action,
 });
 
 export default new Auth()
